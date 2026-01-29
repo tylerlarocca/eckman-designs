@@ -1,0 +1,37 @@
+---
+const nav = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-black/5 bg-white/80 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+    <a href="/" class="flex items-center gap-3">
+      <img
+        src="/images/eckman-designs.PNG"
+        alt="Eckman Designs"
+        class="h-14 w-auto"
+        loading="eager"
+      />
+    </a>
+
+    <nav class="flex items-center gap-6">
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          class="text-sm tracking-wide text-navy-900/80 hover:text-navy-900"
+        >
+          {item.label}
+        </a>
+      ))}
+      <a
+        href="/contact"
+        class="rounded-full bg-navy-800 px-4 py-2 text-sm font-medium text-white shadow-soft hover:bg-navy-700"
+      >
+        Book a Consultation
+      </a>
+    </nav>
+  </div>
+</header>

@@ -1,17 +1,109 @@
 ---
+import SiteLayout from "../layouts/SiteLayout.astro";
 
+const pieces = [
+  { src: "/images/ruby-ring.png", alt: "Ruby halo ring with diamond accents" },
+  { src: "/images/marquise-ring.png", alt: "Marquise diamond ring with pavé band" },
+  { src: "/images/radiant-pendant.png", alt: "Radiant diamond pendant with baguette details" },
+  { src: "/images/rose-gold-oval-ring.png", alt: "Rose gold hidden halo oval diamond ring" },
+  { src: "/images/sapphire-earrings.png", alt: "Sapphire and diamond drop earrings" },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<SiteLayout
+  title="Eckman Designs | Custom Fine Jewelry"
+  description="Elegant custom jewelry—engagement, anniversary, redesigns, and one-of-one pieces."
+>
+  <section class="py-14 sm:py-18">
+    <div class="grid items-center gap-10 lg:grid-cols-2">
+      <div>
+        <p class="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-xs tracking-widest text-navy-900/70">
+          <span class="h-1.5 w-1.5 rounded-full bg-gold"></span>
+          CUSTOM • ELEGANT • TIMELESS
+        </p>
+
+        <h1 class="mt-5 text-4xl font-semibold leading-tight tracking-tight text-navy-900 sm:text-5xl">
+          Custom jewelry designed with intention — and made to last.
+        </h1>
+
+        <p class="mt-4 max-w-xl text-base leading-relaxed text-navy-900/70">
+          From engagement rings to heirloom redesigns, Eckman Designs crafts refined pieces
+          using exceptional stones and thoughtful detail.
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a
+            href="/contact"
+            class="rounded-full bg-navy-800 px-6 py-3 text-sm font-medium text-white shadow-soft hover:bg-navy-700"
+          >
+            Request a Consultation
+          </a>
+          <a
+            href="/about"
+            class="rounded-full border border-navy-900/15 bg-white px-6 py-3 text-sm font-medium text-navy-900 hover:border-navy-900/25"
+          >
+            Meet the Designer
+          </a>
+        </div>
+
+        <div class="mt-10 grid grid-cols-3 gap-6">
+          <div class="rounded-2xl border border-black/5 bg-white p-4 shadow-soft">
+            <p class="text-xs tracking-widest text-navy-900/50">PROCESS</p>
+            <p class="mt-1 font-medium text-navy-900">1:1 Design</p>
+          </div>
+          <div class="rounded-2xl border border-black/5 bg-white p-4 shadow-soft">
+            <p class="text-xs tracking-widest text-navy-900/50">QUALITY</p>
+            <p class="mt-1 font-medium text-navy-900">Fine Materials</p>
+          </div>
+          <div class="rounded-2xl border border-black/5 bg-white p-4 shadow-soft">
+            <p class="text-xs tracking-widest text-navy-900/50">FEEL</p>
+            <p class="mt-1 font-medium text-navy-900">Modern Classic</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-b from-champagne/30 to-transparent blur-2xl"></div>
+
+        <div class="relative rounded-[2.5rem] border border-black/5 bg-white p-5 shadow-soft">
+          <div class="grid grid-cols-2 gap-4">
+            {pieces.slice(0, 4).map((p) => (
+              <figure class="rounded-2xl border border-black/5 bg-white p-3">
+                <img src={p.src} alt={p.alt} class="h-44 w-full object-contain" loading="lazy" />
+              </figure>
+            ))}
+          </div>
+          <div class="mt-4 rounded-2xl border border-black/5 bg-white p-3">
+            <img
+              src={pieces[4].src}
+              alt={pieces[4].alt}
+              class="h-44 w-full object-contain"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-16">
+    <div class="rounded-[2rem] border border-black/5 bg-white p-8 shadow-soft sm:p-10">
+      <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <h2 class="text-2xl font-semibold tracking-tight text-navy-900">
+            Ready to create something unforgettable?
+          </h2>
+          <p class="mt-2 max-w-2xl text-navy-900/70">
+            Share inspiration photos or sketches, and we’ll schedule a design appointment.
+          </p>
+        </div>
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center rounded-full bg-navy-800 px-6 py-3 text-sm font-medium text-white shadow-soft hover:bg-navy-700"
+        >
+          Start Your Custom Piece
+        </a>
+      </div>
+    </div>
+  </section>
+</SiteLayout>
