@@ -68,23 +68,23 @@ const FORMSPREE_ENDPOINT = "https://formspree.io/f/xzdgvplz";
             />
           </label>
 
-          <label class="grid gap-2">
+          <!-- <label class="grid gap-2">
             <span class="text-sm font-medium text-navy-900">
               Inspiration images (optional)
             </span>
             <input
+              id="images"
               name="images"
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/webp"
               multiple
               class="block w-full cursor-pointer rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-navy-900/80 file:mr-4 file:rounded-full file:border-0 file:bg-navy-800 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-navy-700"
             />
             <span class="text-xs text-navy-900/50">
-              Upload screenshots or photos — no problem if you don’t have any yet.
+              Optional: upload up to <strong>3</strong> images, under <strong>5MB</strong> each. (Screenshots work great.)
             </span>
-          </label>
+          </label> -->
 
-          <!-- Formspree options -->
           <input type="hidden" name="_subject" value="New Eckman Designs Appointment Request" />
           <input type="hidden" name="_format" value="plain" />
 
@@ -98,8 +98,12 @@ const FORMSPREE_ENDPOINT = "https://formspree.io/f/xzdgvplz";
           <p class="text-xs text-navy-900/50">
             By submitting, you agree to be contacted to schedule your consultation.
           </p>
-          <p id="form-error" class="text-red-600 text-sm mt-2 hidden">Something went wrong. Please try again.</p>
+
+          <p id="form-error" class="text-red-600 text-sm mt-2 hidden">
+            Something went wrong. Please try again.
+          </p>
         </form>
+
         <div id="thank-you-message" class="hidden py-12 text-center">
           <h2 class="text-2xl font-semibold text-navy-900 mb-2">Thank you!</h2>
           <p class="text-navy-900/70">Your request has been received. We’ll be in touch soon to schedule your consultation.</p>
@@ -114,26 +118,84 @@ document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('contact-form');
   const thankYou = document.getElementById('thank-you-message');
   const errorMsg = document.getElementById('form-error');
+  const fileInput = document.getElementById('images');
+  const MAX_FILES = 3;
+  const MAX_MB_PER_FILE = 5;
+  const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+
+  function showError(message) {
+    if (!errorMsg) return;
+    errorMsg.textContent = message;
+    errorMsg.classList.remove('hidden');
+  }
+
+  function hideError() {
+    if (!errorMsg) return;
+    errorMsg.classList.add('hidden');
+  }
+
+  function validateFiles() {
+    if (!fileInput || !fileInput.files) return true;
+
+    const files = Array.from(fileInput.files);
+    if (files.length === 0) return true;
+
+    if (files.length > MAX_FILES) {
+      showError(`Please upload up to ${MAX_FILES} images.`);
+      fileInput.value = "";
+      return false;
+    }
+
+    for (const f of files) {
+      if (!ALLOWED_TYPES.has(f.type)) {
+        showError("Please upload only JPG, PNG, or WEBP images.");
+        fileInput.value = "";
+        return false;
+      }
+
+      const sizeMb = f.size / (1024 * 1024);
+      if (sizeMb > MAX_MB_PER_FILE) {
+        showError(`Each image must be under ${MAX_MB_PER_FILE}MB. Try a screenshot or smaller photo.`);
+        fileInput.value = "";
+        return false;
+      }
+    }
+
+    return true;
+  }
+  if (fileInput) {
+    fileInput.addEventListener("change", () => {
+      hideError();
+      validateFiles();
+    });
+  }
+
   if (form) {
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
-      errorMsg.classList.add('hidden');
+      hideError();
+
+      // Validate uploads before sending
+      if (!validateFiles()) return;
+
       const formData = new FormData(form);
+
       try {
         const res = await fetch(form.action, {
           method: 'POST',
           body: formData,
           headers: { Accept: 'application/json' },
         });
+
         if (res.ok) {
           form.classList.add('hidden');
           thankYou.classList.remove('hidden');
           form.reset();
         } else {
-          errorMsg.classList.remove('hidden');
+          showError("Something went wrong submitting the form. Please try again.");
         }
       } catch {
-        errorMsg.classList.remove('hidden');
+        showError("Network error. Please try again in a moment.");
       }
     });
   }
