@@ -10,6 +10,13 @@ const { title = "Eckman Designs", description = "Custom fine jewelry, designed w
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17931750375"></script>
+  <script set:html={`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-17931750375');
+  `}></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
